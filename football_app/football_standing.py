@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-
+from selenium.webdriver.common.by import By
 import logging
 
 import requests
@@ -20,7 +20,7 @@ import base64
 import time
 import os
 
-path="/home/jason/Documents/football_app/"
+path="/home/jason/Documents/py/football_app/"
 logging.basicConfig(level=logging.INFO)
 logging.basicConfig(level=logging.ERROR)
 
@@ -28,15 +28,22 @@ def get(driver,data,leauge,time_sleep):
     time_sleep+=1
     
     driver.get(data[leauge][0])
-    # wait for all html content loaded
     time.sleep(time_sleep)
-
+    element=driver.find_elements(By.CSS_SELECTOR,'.tb_h.ie7Asb.AAhKnb.TbbqEc.YPgUJe.B27Eaf')
+    # print(element)
+    elements_click = element[0].find_elements(By.CSS_SELECTOR, '.imso-hide-overflow.tb_l.GSkImd')
+    # print(elements_click)
+    
+    elements_click[2].click()
+    # wait for all html content loaded
+    time.sleep(1)
     # get the html content 
     html_content = driver.page_source
-
+    # html_content=requests.get(data[leauge][0]).content
+    
     # parse the content to the tree
     tree= html.document_fromstring(html_content)
-
+    
     ##write the content to a local file
     # file_name="html_content.html"
     # with open(file_name, 'w') as file:
@@ -48,17 +55,17 @@ def get(driver,data,leauge,time_sleep):
 def playball(leauge, picture_gen=False):
 
     # using gl=us to force the result getting from united states
-    url_premier = "https://www.google.com/search?q=the+premier+league+standing&gl=us&sca_esv=31fe38a8fb03ee39&sxsrf=ACQVn0_Ingf4ChLSXVoCSxfqH5x1p31Rdw%3A1707893744939&ei=8GPMZdj3OIXp1e8P5eaqeA&ved=0ahUKEwjYr-z_n6qEAxWFdPUHHWWzCg8Q4dUDCBA&uact=5&oq=the+premier+league+standing&gs_lp=Egxnd3Mtd2l6LXNlcnAiG3RoZSBwcmVtaWVyIGxlYWd1ZSBzdGFuZGluZzIFEAAYgAQyBRAAGIAEMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHkiUE1AlWPcRcAF4AZABAJgBiwGgAfIHqgEDMi43uAEDyAEA-AEBwgIKEAAYRxjWBBiwA8ICDRAAGIAEGIoFGEMYsAPCAg4QABjkAhjWBBiwA9gBAcICExAuGIAEGIoFGEMYyAMYsAPYAQLCAgUQLhiABMICCBAAGBYYHhgPwgILEAAYgAQYigUYhgPiAwQYACBBiAYBkAYQugYGCAEQARgJugYGCAIQARgI&sclient=gws-wiz-serp#sie=lg;/g/11sk7gnh6c;2;/m/02_tc;st;fp;1;;;"
-    url_laliga="https://www.google.com/search?q=laliga&gl=us&oq=laliga&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgcIARAAGIAEMgcIAhAAGIAEMgkIAxAuGAoYgAQyBwgEEAAYgAQyBwgFEAAYgAQyBwgGEC4YgAQyBwgHEAAYgAQyCQgIEAAYChiABDIHCAkQABiABNIBCTIxNjNqMGoxNagCALACAA&sourceid=chrome&ie=UTF-8#sie=lg;/g/11khrmf0s3;2;/m/09gqx;st;fp;1;;;"
-    url_serieA="https://www.google.com/search?q=sery+a&gl=us&oq=sery+a&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIHCAUQLhiABDIHCAYQLhiABDINCAcQLhivARjHARiABDIHCAgQABiABDIHCAkQABiABNIBCTIxOTVqMGoxNagCALACAA&sourceid=chrome&ie=UTF-8#sie=lg;/g/11kbz3nwd5;2;/m/03zv9;st;fp;1;;;"
-    url_bundesliga="https://www.google.com/search?q=bundesliga&gl=us&oq=bundes&gs_lcrp=EgZjaHJvbWUqCggAEAAY4wIYgAQyCggAEAAY4wIYgAQyBwgBEC4YgAQyBwgCEC4YgAQyBggDEEUYOTIHCAQQABiABDIHCAUQABiABDIHCAYQABiABDIHCAcQABiABDIHCAgQABiABDIHCAkQABiABKgCALACAA&sourceid=chrome&ie=UTF-8#sie=lg;/g/11t82pjxl9;2;/m/037169;st;fp;1;;;"
+    url_premier = "https://www.google.com/search?q=premier+league&oq=&gl=us&gs_lcrp=EgZjaHJvbWUqCQgAEEUYOxjCAzIJCAAQRRg7GMIDMgkIARBFGDsYwgMyCQgCEEUYOxjCAzIJCAMQRRg7GMIDMgkIBBBFGDsYwgMyCQgFEEUYOxjCAzIJCAYQRRg7GMIDMgkIBxBFGDsYwgPSAQg3OTlqMGoxNagCCLACAQ&sourceid=chrome&ie=UTF-8"
+    url_laliga="https://www.google.com/search?q=laliga&gl=us&oq=la&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGDkyBwgCEAAYgAQyDQgDEC4YxwEY0QMYgAQyBwgEEAAYgAQyBwgFEAAYgAQyBwgGEC4YgAQyBwgHEAAYgAQyCggIEC4Y1AIYgAQyCggJEC4Y1AIYgATSAQkxNjYyajBqMTWoAgCwAgA&sourceid=chrome&ie=UTF-8"
+    url_serieA="https://www.google.com/search?q=serie+A&gl=us&sca_esv=f5f2bc2e5380d47d&hl=en&sxsrf=ACQVn08EqItNmReNuXvs6FofpMgV9KocZg%3A1708053961125&source=hp&ei=ydXOZfmBBe23vr0PzO-quAY&iflsig=ANes7DEAAAAAZc7j2XOf7-S00r_T3YYLYj7ZT201aWm3&ved=0ahUKEwi5iu7s9K6EAxXtm68BHcy3CmcQ4dUDCA0&uact=5&oq=serie+A&gs_lp=Egdnd3Mtd2l6IgdzZXJpZSBBMgUQLhiABDIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAuGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABEjjHFAAWLUacAF4AJABAJgBlQGgAdMHqgEDMy41uAEDyAEA-AEBwgILEC4YgAQYxwEY0QPCAggQLhiABBjUAg&sclient=gws-wiz"
+    url_bundesliga="https://www.google.com/search?q=bundesliga&gl=us&sca_esv=f5f2bc2e5380d47d&hl=en&sxsrf=ACQVn0_MvIMD8Zh3aIjBVYVvqwd3pVJamw%3A1708055561681&source=hp&ei=CdzOZcmfJvfn2roP-rCfqAE&iflsig=ANes7DEAAAAAZc7qGYHpLDhcIOYLQOe02Sa3aYBIEe0r&oq=bunde&gs_lp=Egdnd3Mtd2l6IgVidW5kZSoCCAAyBRAuGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQLhiABDIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAESMgMUABYgAVwAHgAkAEAmAF7oAG-BKoBAzAuNbgBA8gBAPgBAcICCxAuGIAEGMcBGNED&sclient=gws-wiz"
 
     # the number of teams
     num_premier=20
     num_laliga=20
     num_bundesliga=18
     num_serieA=20
-    time_sleep=0
+    time_sleep=1
     # the dictionary for leauge data
     data={'premier':[url_premier,num_premier],'laliga':[url_laliga,num_laliga],'bundesliga':[url_bundesliga,num_bundesliga],'serieA':[url_serieA,num_serieA]}
 
@@ -85,8 +92,8 @@ def playball(leauge, picture_gen=False):
             
             success=True
         except IndexError:
-            # driver.quit()
-            # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+            driver.quit()
+            driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
             logging.info("main div loading")
             tree=get(driver,data,leauge,time_sleep) 
             
@@ -122,8 +129,8 @@ def playball(leauge, picture_gen=False):
                 td_list[j][2]=td_list[j][2]
             success=True
         except IndexError:
-            # driver.quit()
-            # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+            driver.quit()
+            driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
             logging.info("tr loading")
             tree=get(driver,data,leauge,time_sleep)
             body=tree.getchildren()[1]
@@ -220,4 +227,4 @@ def playball(leauge, picture_gen=False):
     standing={'name':name_list,'match':match_list,'lose':lose_list,'win':win_list,'pts':pts_list,'last':Last_list,'draw':draw_list}
     return standing
 
-result=playball('laliga',picture_gen=True)
+# result=playball('laliga',picture_gen=True)
