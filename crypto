@@ -1,4 +1,0 @@
-import cryptocompare
-while(True):
-    price = cryptocompare.get_price('ETH', 'TW')
-    print(price)
