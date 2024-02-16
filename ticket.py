@@ -1,12 +1,33 @@
 from selenium import webdriver
-import time 
+import time
+browser = webdriver.Chrome("./chromedriver")
 
-driver = webdriver.Chrome('./chromedriver')
-driver.get('https://ticketplus.com.tw/activity/e1d789a22aaaf3d52b88801b0ce9f860')
-driver.maximize_window()
+#option.add_experimental_option("excludeSwitches", ['enable-automation']);
+#option.add_argument("--headless") Use this and the following option to run Headless
+#option.add_argument("disable-gpu")
+#browser = webdriver.Chrome(executable_path='/home/srujan/chromedriver', options=option)
+
+browser.get("https://forms.gle/FoAoauz53Xy7A4n68")
+
+# # Use the following snippets to get elements by their class names
 time.sleep(2)
-driver.find_element("xpath","//*[@id='appBar']/div/div/div/button").click()
 
+textboxes = browser.find_elements_by_class_name("whsOnd")
 
+# radiobuttons = browser.find_elements_by_class_name("docssharedWizToggleLabeledLabelWrapper")
+# checkboxes = browser.find_elements_by_class_name("quantumWizTogglePapercheckboxInnerBox")
+submitbutton = browser.find_element_by_xpath("//*[@id='mG61Hd']/div[2]/div/div[3]/div[1]/div[1]/div/span")
 
-time.sleep(100)
+# # Use the following snippets to get elements by their XPath
+# otherboxes = browser.find_element_by_xpath("<Paste the XPath here>")
+
+textboxes[0].send_keys("Hello World")
+
+# radiobuttons[2].click()
+
+# checkboxes[1].click()
+# checkboxes[3].click()
+print("sdfsdfsd")
+submitbutton[0].click()
+
+browser.quit()
