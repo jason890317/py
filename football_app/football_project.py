@@ -3,7 +3,7 @@
 import gi
 import football_standing
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, GdkPixbuf
+from gi.repository import Gtk, GdkPixbuf, Gio
 
 
 def set_table(leauge):
@@ -170,14 +170,34 @@ def set_table(leauge):
 
 
 
-class StackWindow(Gtk.Window):
-    def __init__(self):
-        super().__init__(title="Standing")
-        self.set_border_width(10)
-        self.set_default_size(400, 600)
+class StackWindow(Gtk.Application):
+    def __init__(self,application_id, *args, **kwargs):
+        super().__init__(application_id="football_app.py", *args, **kwargs)
+        
 
+    def do_startup(self):
+        Gtk.Application.do_startup(self)  # Always call the parent class's do_startup()
+
+        # Create actions
+        action = Gio.SimpleAction.new("quit", None)
+        action.connect("activate", self.on_quit)
+        self.add_action(action)
+
+        # Set up the application menu
+        # Note: Actual menu setup code would go here
+
+    def on_quit(self, action, param):
+        self.quit()
+
+    def do_activate(self):
+        app_win=Gtk.ApplicationWindow(application=self)
+        app_win.set_title("Standing")
+        # This method would create and show the application's main window
+        app_win.set_border_width(10)
+        app_win.set_default_size(400, 600)
+        # app_win.set_wmclass("football", "Football")
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        self.add(vbox)
+        app_win.add(vbox)
 
         stack = Gtk.Stack()
         stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
@@ -196,12 +216,11 @@ class StackWindow(Gtk.Window):
         # stack_switcher.set_size_request(10,10)
         vbox.pack_start(stack_switcher, True, True, 0)
         vbox.pack_start(stack, True, True, 0)
+        
+        
+        app_win.show_all()
+        
 
-
-
-
-
-window=StackWindow()
-window.connect("destroy",Gtk.main_quit)
-window.show_all()
-Gtk.main()
+if __name__ == "__main__":
+    app = StackWindow(application_id='football_app.py')
+    app.run()

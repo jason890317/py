@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Football App
+Path=/home/jason/Documents/py/football_app/
+Exec=python3 /home/jason/Documents/py/football_app/football_project.py
+Icon=/home/jason/Documents/py/football_app/premier/premier_Tottenham.png
+StartupWMClass=football_project.py
