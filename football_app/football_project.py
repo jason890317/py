@@ -8,8 +8,6 @@ from gi.repository import Gtk, GdkPixbuf, Gio
 
 def set_table(leauge):
     
-
-    
     scrolled_window = Gtk.ScrolledWindow()
     scrolled_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
 
@@ -19,6 +17,9 @@ def set_table(leauge):
     scrolled_window.add(listbox)
     
     data=football_standing.playball(leauge)
+    # print("fefe")
+    
+        
     row = Gtk.ListBoxRow()
     grid = Gtk.Grid()
     label_standing=Gtk.Label()
